@@ -90,6 +90,8 @@ public class Inspector extends Mod {
 		
 		// - - - - - - - - - - - - - - - - - - - - - -
 		
+		processUnits( arrContent );
+		
 		modifySectors();
 		
 		modifyAllSectors();
@@ -100,9 +102,39 @@ public class Inspector extends Mod {
 	
 	
 	//---------------------------------------------------------------//
+	//  processUnits()                                               //
+	//---------------------------------------------------------------//
+	private void processUnits( List<UnlockableContent>  arrContent ) {
+		
+		ItemStack[]     zero      = {};
+		List<UnitPlan>  arrPlan   = new ArrayList<>();
+		List<String>    gameUnits = prepare_BuiltIn_GameUnits();
+		
+		Consumer<UnlockableContent> action = x -> {
+			if (x instanceof UnitType) {
+				UnitType ut = (UnitType) x;
+				
+				if (!gameUnits.contain( ut.name )) {
+					arrPlan.add( new UnitPlan( ut, 180f, zero ));
+				} //if
+			} //if
+		};
+		
+		arr.Content.forEach( action );
+		
+		Seq<UnitPlan> unitPlans = new Seq<>( arrPlan.size() );
+		
+		arrPlan.forEach( x -> unitPlans.add(x) );
+		
+		unit_factory_x.plans = unitPlans;
+		
+	} //processUnits()
+	
+	
+	//---------------------------------------------------------------//
 	//  modifyAllSectors()                                           //
 	//---------------------------------------------------------------//
-	public void modifyAllSectors() {
+	private void modifyAllSectors() {
 		
 		// List<SectorPreset> arr = new ArrayList<>();
 		
@@ -122,7 +154,7 @@ public class Inspector extends Mod {
 	//---------------------------------------------------------------//
 	//  modifySectors()                                              //
 	//---------------------------------------------------------------//
-	public void modifySectors() {
+	private void modifySectors() {
 		
 		List<SectorPreset> arr = new ArrayList<>();
 		
