@@ -54,7 +54,7 @@ public class Unit_Factory_X extends UnitFactory {
 		plans = Seq.with(
 			// new UnitPlan( X_Unit_Types.collaris_x , 180f, zero),
 			// new UnitPlan( X_Unit_Types.conquer_x  , 180f, zero),
-			new UnitPlan( flare, 180f, zero)
+			new UnitPlan( UnitTypes.flare, 180f, zero)
 		);
 		
 		size = 3;

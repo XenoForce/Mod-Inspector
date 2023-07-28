@@ -24,6 +24,8 @@ import mindustry.world.*;
 import mod.blocks.units.*;
 // import mod.units.*;
 
+import mindustry.world.blocks.units.UnitFactory.UnitPlan;
+
 
 public class Inspector extends Mod {
 	
@@ -92,6 +94,8 @@ public class Inspector extends Mod {
 		
 		processUnits( arrContent );
 		
+		remove_Erekir_Red_Filter();
+		
 		modifySectors();
 		
 		modifyAllSectors();
@@ -108,27 +112,120 @@ public class Inspector extends Mod {
 		
 		ItemStack[]     zero      = {};
 		List<UnitPlan>  arrPlan   = new ArrayList<>();
-		List<String>    gameUnits = prepare_BuiltIn_GameUnits();
+		List<UnitType>  gameUnits = prepare_BuiltIn_GameUnits();
 		
 		Consumer<UnlockableContent> action = x -> {
 			if (x instanceof UnitType) {
 				UnitType ut = (UnitType) x;
 				
-				if (!gameUnits.contain( ut.name )) {
+				if (!gameUnits.contains( ut )) {
 					arrPlan.add( new UnitPlan( ut, 180f, zero ));
 				} //if
 			} //if
 		};
 		
-		arr.Content.forEach( action );
+		arrContent.forEach( action );
 		
 		Seq<UnitPlan> unitPlans = new Seq<>( arrPlan.size() );
 		
 		arrPlan.forEach( x -> unitPlans.add(x) );
 		
-		unit_factory_x.plans = unitPlans;
+		Unit_Factory_X fact = new Unit_Factory_X();
+		fact.load();
+		fact.plans = unitPlans;
 		
 	} //processUnits()
+	
+	
+	//---------------------------------------------------------------//
+	//  prepare_BuiltIn_GameUnits()                                  //
+	//---------------------------------------------------------------//
+	private List<UnitType> prepare_BuiltIn_GameUnits() {
+		
+		List<UnitType> list = new ArrayList<>();
+		
+		list.add( UnitTypes.alpha );
+		list.add( UnitTypes.beta );
+		list.add( UnitTypes.gamma );
+		
+		list.add( UnitTypes.evoke );
+		list.add( UnitTypes.incite );
+		list.add( UnitTypes.emanate );
+		
+		list.add( UnitTypes.missile );
+		
+		list.add( UnitTypes.flare );
+		list.add( UnitTypes.horizon );
+		list.add( UnitTypes.zenith );
+		list.add( UnitTypes.antumbra );
+		list.add( UnitTypes.eclipse );
+		
+		list.add( UnitTypes.mono );
+		list.add( UnitTypes.poly );
+		list.add( UnitTypes.mega );
+		list.add( UnitTypes.quad );
+		list.add( UnitTypes.oct );
+		
+		list.add( UnitTypes.dagger );
+		list.add( UnitTypes.mace );
+		list.add( UnitTypes.fortress );
+		list.add( UnitTypes.scepter );
+		list.add( UnitTypes.reign );
+		
+		list.add( UnitTypes.nova );
+		list.add( UnitTypes.pulsar );
+		list.add( UnitTypes.quasar );
+		list.add( UnitTypes.vela );
+		list.add( UnitTypes.corvus );
+		
+		list.add( UnitTypes.crawler );
+		list.add( UnitTypes.atrax );
+		list.add( UnitTypes.spiroct );
+		list.add( UnitTypes.arkyid );
+		list.add( UnitTypes.toxopid );
+		
+		list.add( UnitTypes.risso );
+		list.add( UnitTypes.minke );
+		list.add( UnitTypes.bryde );
+		list.add( UnitTypes.sei );
+		list.add( UnitTypes.omura );
+		
+		list.add( UnitTypes.retusa );
+		list.add( UnitTypes.oxynoe );
+		list.add( UnitTypes.cyerce );
+		list.add( UnitTypes.aegires );
+		list.add( UnitTypes.navanax );
+		
+		list.add( UnitTypes.elude );
+		list.add( UnitTypes.avert );
+		list.add( UnitTypes.obviate );
+		list.add( UnitTypes.quell );
+		list.add( UnitTypes.disrupt );
+		
+		list.add( UnitTypes.merui );
+		list.add( UnitTypes.cleroi );
+		list.add( UnitTypes.anthicus );
+		list.add( UnitTypes.tecta );
+		list.add( UnitTypes.collaris );
+		
+		list.add( UnitTypes.stell );
+		list.add( UnitTypes.locus );
+		list.add( UnitTypes.precept );
+		list.add( UnitTypes.vanquish );
+		list.add( UnitTypes.conquer );
+		
+		return list;
+	} //prepare_BuiltIn_GameUnits()
+	
+	
+	//---------------------------------------------------------------//
+	//  remove_Erekir_Red_Filter()                                   //
+	//---------------------------------------------------------------//
+	private void remove_Erekir_Red_Filter() {
+		
+		Vars.renderer.envRenderers.clear();
+		
+	} //remove_Erekir_Red_Filter()
 	
 	
 	//---------------------------------------------------------------//
