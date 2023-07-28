@@ -115,7 +115,8 @@ public class Inspector extends Mod {
 		List<UnitType>  gameUnits = prepare_BuiltIn_GameUnits();
 		
 		Consumer<UnlockableContent> action = x -> {
-			if (x instanceof UnitType) {
+			if ((x instanceof UnitType)
+			&& (!(x instanceof MissileUnitType))) {
 				UnitType ut = (UnitType) x;
 				
 				if (!gameUnits.contains( ut )) {
@@ -126,14 +127,22 @@ public class Inspector extends Mod {
 		
 		arrContent.forEach( action );
 		
+		Log.info("No of UnitPlans in Java list: " + arrPlan.size() );
+		
 		Seq<UnitPlan> unitPlans = new Seq<>( arrPlan.size() );
 		
 		arrPlan.forEach( x -> unitPlans.add(x) );
+		
+		Log.info("No of UnitPlans in Seq: " + unitPlans.size );
 		
 		Unit_Factory_X fact = new Unit_Factory_X();
 		fact.plans = unitPlans;
 		fact.load();
 		fact.unlock();
+		
+		Log.info("No of UnitPlans in Factory: " + fact.plans.size );
+		
+		fact.plans.each( x-> Log.info(x.unit.name) );
 		
 	} //processUnits()
 	
@@ -154,6 +163,12 @@ public class Inspector extends Mod {
 		list.add( UnitTypes.emanate );
 		
 		list.add( UnitTypes.missile );
+		
+		list.add( UnitTypes.assemblyDrone );
+		list.add( UnitTypes.manifold );
+		list.add( UnitTypes.latum );
+		list.add( UnitTypes.renale );
+		list.add( UnitTypes.block );
 		
 		list.add( UnitTypes.flare );
 		list.add( UnitTypes.horizon );
@@ -234,12 +249,24 @@ public class Inspector extends Mod {
 	//---------------------------------------------------------------//
 	private void modifyAllSectors() {
 		
-		// List<SectorPreset> arr = new ArrayList<>();
+		// Vars.world.
+		
+		// Vars.maps.
+		
+		// Vars.state.rules.winWave = 3;
+		
+		// Vars.state.rules.spawns = 
 		
 		Seq<Sector> arr = Planets.serpulo.sectors;
 		
+		Log.info("No of Seruplo Sectors: " + arr.size );
+		
 		Cons<Sector> action = x -> {
-			x.info.winWave = 3;
+			if (!x.info.attack) {
+				x.info.winWave = 3;
+			} //if
+			
+			// x.info.wavesPassed = 40;
 			// x.difficulty = 5;
 			// x.startWaveTimeMultiplier = 4f;
 		};
