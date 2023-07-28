@@ -131,8 +131,9 @@ public class Inspector extends Mod {
 		arrPlan.forEach( x -> unitPlans.add(x) );
 		
 		Unit_Factory_X fact = new Unit_Factory_X();
-		fact.load();
 		fact.plans = unitPlans;
+		fact.load();
+		fact.unlock();
 		
 	} //processUnits()
 	
