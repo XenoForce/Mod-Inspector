@@ -80,7 +80,8 @@ public class Inspector extends Mod {
 		ItemStack[] zero = {};
 		
 		Consumer<UnlockableContent> unlockAction = x -> {
-			x.unlock();
+			x.alwaysUnlocked = true;
+			// x.unlock();
 			
 			if (x instanceof Block) {
 				Block blk = (Block) x;
@@ -96,9 +97,9 @@ public class Inspector extends Mod {
 		
 		remove_Erekir_Red_Filter();
 		
-		modifySectors();
+		modify_Named_Sectors();
 		
-		modifyAllSectors();
+		modify_All_Sectors();
 		
 		Log.info("End of: Inspector.loadContent().");
 		
@@ -245,9 +246,9 @@ public class Inspector extends Mod {
 	
 	
 	//---------------------------------------------------------------//
-	//  modifyAllSectors()                                           //
+	//  modify_All_Sectors()                                         //
 	//---------------------------------------------------------------//
-	private void modifyAllSectors() {
+	private void modify_All_Sectors() {
 		
 		// Vars.world.
 		
@@ -273,13 +274,13 @@ public class Inspector extends Mod {
 		
 		arr.each( action );
 		
-	} //modifyAllSectors()
+	} //modify_All_Sectors()
 	
 	
 	//---------------------------------------------------------------//
-	//  modifySectors()                                              //
+	//  modify_Named_Sectors()                                       //
 	//---------------------------------------------------------------//
-	private void modifySectors() {
+	private void modify_Named_Sectors() {
 		
 		List<SectorPreset> arr = new ArrayList<>();
 		
@@ -304,7 +305,7 @@ public class Inspector extends Mod {
 		
 		arr.forEach( action );
 		
-	} //modifySectors()
+	} //modify_Named_Sectors()
 	
 	
 	//---------------------------------------------------------------//
