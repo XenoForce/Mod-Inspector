@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.*;
 
 import arc.*;
+import arc.files.*;
 import arc.func.*;
 import arc.struct.*;
 import arc.util.*;
@@ -26,15 +27,32 @@ import mod.blocks.units.*;
 
 import mindustry.world.blocks.units.UnitFactory.UnitPlan;
 
+// import mindustry.mod.Mods.LoadedMod;
+
 
 public class Inspector extends Mod {
+	
+	//---------------------------------------------------------------//
+	//  Static Attributes:                                           //
+	//---------------------------------------------------------------//
+	public static Unit_Factory_X   fact  = new Unit_Factory_X();
+	
 	
 	//---------------------------------------------------------------//
 	//  Constructor                                                  //
 	//---------------------------------------------------------------//
 	public Inspector() {
+		
 		Log.info("Loaded Inspector constructor.");
-	}
+		
+		//listen for game load event
+		Events.on(ClientLoadEvent.class, e -> {
+			Time.runTask(10f, () -> {
+				change_Things();
+			});
+		});
+		
+	} //Constructor
 	
 	
 	//---------------------------------------------------------------//
@@ -63,6 +81,18 @@ public class Inspector extends Mod {
 		
 		Log.info("Begin: Inspector.loadContent().");
 		
+		
+		
+		Log.info("End of: Inspector.loadContent().");
+		
+	} //loadContent()
+	
+	
+	//---------------------------------------------------------------//
+	//  change_Things()                                              //
+	//---------------------------------------------------------------//
+	private void change_Things() {
+		
 		// --- Grab the Content: ------------------------
 		
 		List<UnlockableContent> arrContent = new ArrayList<>();
@@ -80,8 +110,8 @@ public class Inspector extends Mod {
 		ItemStack[] zero = {};
 		
 		Consumer<UnlockableContent> unlockAction = x -> {
-			x.alwaysUnlocked = true;
-			// x.unlock();
+			// x.alwaysUnlocked = true;
+			x.unlock();
 			
 			if (x instanceof Block) {
 				Block blk = (Block) x;
@@ -101,9 +131,7 @@ public class Inspector extends Mod {
 		
 		modify_All_Sectors();
 		
-		Log.info("End of: Inspector.loadContent().");
-		
-	} //loadContent()
+	} //change_Things()
 	
 	
 	//---------------------------------------------------------------//
@@ -136,7 +164,6 @@ public class Inspector extends Mod {
 		
 		Log.info("No of UnitPlans in Seq: " + unitPlans.size );
 		
-		Unit_Factory_X fact = new Unit_Factory_X();
 		fact.plans = unitPlans;
 		fact.load();
 		fact.unlock();
