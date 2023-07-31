@@ -35,7 +35,7 @@ public class Inspector extends Mod {
 	//---------------------------------------------------------------//
 	//  Static Attributes:                                           //
 	//---------------------------------------------------------------//
-	public static Unit_Factory_X   fact  = new Unit_Factory_X();
+	public static Unit_Factory_X   fact;
 	
 	
 	//---------------------------------------------------------------//
@@ -81,7 +81,9 @@ public class Inspector extends Mod {
 		
 		Log.info("Begin: Inspector.loadContent().");
 		
-		
+		fact  = new Unit_Factory_X();
+		fact.load();
+		fact.unlock();
 		
 		Log.info("End of: Inspector.loadContent().");
 		
@@ -149,7 +151,9 @@ public class Inspector extends Mod {
 				UnitType ut = (UnitType) x;
 				
 				if (!gameUnits.contains( ut )) {
-					arrPlan.add( new UnitPlan( ut, 180f, zero ));
+					if (!ut.name.startsWith("no-grinding-")) {
+						arrPlan.add( new UnitPlan( ut, 180f, zero ));
+					} //if
 				} //if
 			} //if
 		};
@@ -165,8 +169,6 @@ public class Inspector extends Mod {
 		Log.info("No of UnitPlans in Seq: " + unitPlans.size );
 		
 		fact.plans = unitPlans;
-		fact.load();
-		fact.unlock();
 		
 		Log.info("No of UnitPlans in Factory: " + fact.plans.size );
 		
